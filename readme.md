@@ -1,0 +1,11 @@
+# Todo App
+- initialise a nodejs project.✅
+- add express and jsonwebtoken as a dependency.✅
+- add route skeleton for user login, signup, create a todo, delete a todo.✅
+- define schema for user and todos.✅
+- add a database(mongoDB), use dotenv to store port, mongoDB connection string. ✅
+- add cookie-parser for cookie based auth. ✅
+- add bcrypt for password hashing. ✅
+- complete the routes for user login, signup, create a todo and deleting a todo.(use express routing to better structure your routes)
+- add middleware for user auth.
+- create a simple login frontend.
