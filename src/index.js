@@ -24,10 +24,6 @@ import todosRouter from "./routes/todos.route.js"
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/todos", todosRouter)
 
-app.get("/", (req, res) => {
-  res.send("heyyyyy")
-})
-
 connectDB()
   .then(() => {
     app.listen(PORT, () => {
@@ -37,4 +33,3 @@ connectDB()
   .catch((err) => {
     console.log("MongoDB connection error :", err);
   });
-

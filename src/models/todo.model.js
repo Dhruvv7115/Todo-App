@@ -10,7 +10,7 @@ const todoSchema = new Schema(
       type: Boolean,
       default: false
     },
-    user: {
+    createdBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true
@@ -21,4 +21,4 @@ const todoSchema = new Schema(
   }
 );
 
-const Todo = mongoose.model("Todo", TodoSchema);
+export const Todo = mongoose.model("Todo", todoSchema);

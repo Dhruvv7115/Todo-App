@@ -2,6 +2,7 @@ import { Router } from "express";
 import ApiError from "../utils/ApiError.js"
 import ApiResponse from "../utils/ApiResponse.js"
 import { User } from "../models/user.model.js"
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 //generate access and refresh tokens
@@ -12,13 +13,13 @@ const generateAccessAndRefreshToken = async function (userId) {
       throw new ApiError(400, "User not found.")
     }
   
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
+    const accessToken = await user.generateAccessToken();
+    const refreshToken = await user.generateRefreshToken();
   
     //save the refresh token in db
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false })
-  
+
     return {
       accessToken,
       refreshToken
@@ -29,7 +30,6 @@ const generateAccessAndRefreshToken = async function (userId) {
 }
 
 //signup
-//done
 router.post("/signup", async(req, res) => {
   const { fullname, email, password } = req.body;
 
@@ -88,7 +88,7 @@ router.post("/login", async(req, res) => {
     }
     //check if password is correct.
     const isPasswordCorrect = await user.comparePassword(password);
-    console.log(isPasswordCorrect)
+    // console.log(isPasswordCorrect)
 
     if(!isPasswordCorrect){
       throw new ApiError(400, "Incorrect Password")
@@ -119,8 +119,33 @@ router.post("/login", async(req, res) => {
 })
 
 //logout
-router.post("/logout",(req, res) => {
-  
+router.post("/logout", verifyJWT, async (req, res) => {
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $unset:{
+        refreshToken: 1
+      }
+    },
+    {
+      new: true
+    }
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production"
+  }
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(
+      200, 
+      {}, 
+      "User logged out successfully"
+    ))
 })
 
 export default router;
