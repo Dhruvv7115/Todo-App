@@ -21,9 +21,7 @@ const userSchema = new Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
-    refreshToken:{
-      type: String,
-    },
+    refreshToken: String,
     todos: [
       {
         type: Schema.Types.ObjectId,
@@ -39,11 +37,15 @@ const userSchema = new Schema(
 userSchema.pre("save", async function(next) {
   if(!this.isModified("password")) return next();
 
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  try {
+    this.password = await bcrypt.hash(this.password, 10);
+    next();
+  } catch (err) {
+    next(err);
+  }
 })
-userSchema.methods.comparePassword = async function(){
-  return await bcrypt.compare(this.password, password)
+userSchema.methods.comparePassword = async function(password){
+  return await bcrypt.compare(password, this.password)
 }
 userSchema.methods.generateAccessToken = async function(){
   return jwt.sign(
