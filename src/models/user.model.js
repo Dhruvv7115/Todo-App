@@ -21,13 +21,7 @@ const userSchema = new Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"],
     },
-    refreshToken: String,
-    todos: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Todo",
-      },
-    ], 
+    refreshToken: String, 
   }, 
   {
     timestamps: true,
