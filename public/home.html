@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="./output.css" />
+    <style>
+      ul{
+        margin-top: 20px;
+      }
+      ul > li{
+        color: #e5e7eb;
+        background-color: #404040;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+      }
+      ul > li > button{
+        background-color: #a52a2a;
+        padding: 4px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: hover 0.3s ease-in-out;
+      }
+      ul > li > button:hover{
+        background-color: #7e1d1d;
+      }
+
+      ul > li > span{
+        margin-left: 20px;
+        line-height: 32px;
+      }
+
+      .completed {
+        text-decoration: line-through;
+        background-color: #303030;
+      }
+      .completed > button{
+        background-color: #761b1b;
+      }
+    </style>
+  </head>
+  <body class="flex min-h-screen justify-center items-center bg-neutral-900">
+    <div class="bg-neutral-800 text-center px-[40px] py-[40px] rounded-2xl">
+      <h1 class="font-bold text-4xl text-white">Basic Todo App</h1>
+      <h2 id=""></h2>
+      <div class="mt-[20px] grid grid-cols-4 gap-4">
+        <input class="bg-neutral-700 rounded-lg col-span-3 p-4 text-gray-200 outline-none" type="text" id="todo-input" placeholder="Add a new todo..." />
+        <button class="bg-purple-700 rounded-lg text-white p-2" id="add-task-btn">Add Task</button>
+      </div>
+      <ul id="todo-list"></ul>
+    </div>
+    <script src="todo-list.js"></script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+document.addEventListener('DOMContentLoaded', async function(){
+  const todoList = document.getElementById('todo-list');
+  const addBtn = document.getElementById('add-task-btn');
+  const inputBox = document.getElementById('todo-input');
+  
+  // Get userId from localStorage (should be set during login)
+  const userId = localStorage.getItem("userId");
+  
+  // Check if user is logged in
+  if (!userId) {
+    alert("Please log in to use the todo app");
+    // Redirect to login page if needed
+    // window.location.href = '/login.html';
+    return;
+  }
+
+  // Get authentication token
+  const token = localStorage.getItem("accessToken");
+  
+  // Configure axios defaults for API calls
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+  // Initial fetch of todos
+  await fetchTodos();
+
+  // Event listener for adding new todo
+  addBtn.addEventListener('click', addNewTodo);
+  
+  // Allow adding todo with Enter key
+  inputBox.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      addNewTodo();
+    }
+  });
+
+  // Function to add a new todo
+  async function addNewTodo() {
+    const inputText = inputBox.value.trim();
+    if (inputText === '') return;
+    
+    try {
+      const response = await axios.post('http://localhost:4000/api/v1/todos/add', {
+        content: inputText
+      }, {
+        withCredentials: true
+      });
+      
+      if (response.data.statusCode === 200) {
+        // Clear input field
+        inputBox.value = '';
+        
+        // Render the new todo
+        renderTodo(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error adding todo:", error);
+      alert("Failed to add todo. Please try again.");
+    }
+  }
+
+  // Function to fetch all todos
+  async function fetchTodos() {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/v1/todos/display/${userId}`, {
+        withCredentials: true
+      });
+      
+      // Clear existing todos
+      todoList.innerHTML = '';
+      
+      // Check if todos exist and render them
+      if (response.data.data && response.data.data.todos) {
+        const todos = response.data.data.todos;
+        todos.forEach(todo => renderTodo(todo));
+      }
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+      alert("Failed to load todos. Please check your connection and try again.");
+    }
+  }
+
+  // Function to render a single todo
+  function renderTodo(todo) {
+    const listItem = document.createElement('li');
+    listItem.setAttribute('data-id', todo._id);
+    
+    // Apply completed class if todo is completed
+    if (todo.isCompleted) {
+      listItem.classList.add('completed');
+    }
+    
+    listItem.innerHTML = `
+      <span>${todo.content}</span>
+      <button>Delete</button>
+    `;
+    
+    // Add click event to toggle completion status
+    listItem.addEventListener('click', async function(e) {
+      // Prevent toggle when clicking delete button
+      if (e.target.tagName === 'BUTTON') return;
+      
+      try {
+        const response = await axios.patch(`http://localhost:4000/api/v1/todos/update-status/${todo._id}`, {}, {
+          withCredentials: true
+        });
+        
+        if (response.data.statusCode === 200) {
+          listItem.classList.toggle('completed');
+        }
+      } catch (error) {
+        console.error("Error updating todo status:", error);
+        alert("Failed to update todo status. Please try again.");
+      }
+    });
+    
+    // Add delete event
+    listItem.querySelector('button').addEventListener('click', async function(e) {
+      e.stopPropagation();
+      
+      try {
+        const response = await axios.delete(`http://localhost:4000/api/v1/todos/delete/${todo._id}`, {
+          withCredentials: true
+        });
+        
+        if (response.data.statusCode === 200) {
+          listItem.remove();
+        }
+      } catch (error) {
+        console.error("Error deleting todo:", error);
+        alert("Failed to delete todo. Please try again.");
+      }
+    });
+    
+    // Add to the list
+    todoList.appendChild(listItem);
+  }
+});

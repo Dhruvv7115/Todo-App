@@ -3,52 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>signin/signup</title>
+  <title>Todo App - Sign In/Sign Up</title>
   <link rel="stylesheet" href="./output.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body class="flex items-center min-h-screen justify-center bg-black">
-  <form class="bg-white px-[48px] py-[40px] flex flex-col gap-4 rounded-2xl" id="signin-form">
-    <div class="flex flex-col gap-4 items-center px-4">
-      <h1 class="text-center font-jakarta text-5xl font-bold w-[100%]">Welcome Back!</h1>
-      <p class="text-center w-64">Sign in to Todo-App today & start being productive everyday.</p>
-    </div>
-    <div class="flex flex-col gap-1">
-      <label for="email-signin">Email</label>
-      <input class="block border rounded-lg p-4 mb-2 w-[100%]" type="text" id="email-signin" placeholder="youremail@example.com" />
-    </div>
-    <div id="signin-pass-container" class="flex flex-col gap-1 relative">
-      <label for="password-signin">Password</label>
-      <input class="block border rounded-lg p-4 mb-2 w-[100%]" type="password" id="password-signin" placeholder="enter your password" />
-      <span class="fa fa-eye-slash absolute right-4 top-3/5 transform -translate-y-1/2 text-gray-500 cursor-pointer" id="toggle-password"></span>
-    </div>
-    <button class="bg-black text-white rounded-lg px-8 py-4 hover:bg-stone-800 hover:cursor-pointer" id="signin-btn">Sign in</button>
-    <p class="text-center">Don't have an account? <a href="#" class="text-blue-500" id="signup-link">Sign up</a></p>
-  </form>
-  <form class="hidden bg-white px-[48px] py-[40px] flex-col gap-4 rounded-2xl" id="signup-form">
-    <div class="flex flex-col gap-4 items-center px-4">
-      <h1 class="text-center font-jakarta text-5xl font-bold w-[100%]">Basic Todo-App</h1>
-      <p class="text-center w-64">Sign Up to Todo-App today & start being productive everyday.</p>
-    </div>
-    <div class="flex flex-col gap-1">
-      <label for="email-signup">Email</label>
-      <input class="block border rounded-lg p-4 mb-2 w-[100%]" type="text" id="email-signup" placeholder="email" />
-    </div>
-    <div class="flex flex-col gap-1">
-      <label for="fullname">Fullname</label>
-      <input class="block border rounded-lg p-4 mb-2 w-[100%]" type="text" id="fullname" placeholder="fullname" />
-    </div>
-    <div  class="flex flex-col gap-1">
-      <label for="email-password">Password</label>
-      <input class="block border rounded-lg p-4 mb-2 w-[100%]" type="password" id="password-signup" placeholder="password" />
-    </div>   
-    <button class="bg-black text-white rounded-lg px-8 py-4 hover:bg-stone-800 hover:cursor-pointer" id="signup-btn">Signup</button>
-    <div class="flex flex-col gap-2">
-      <p class="text-center">Already have an account? <a href="#" class="text-blue-500" id="signin-link">Sign in</a></p>
-    </div>
-  </form> 
-  <script src="./script.js"></script>
+  <!-- Signin Form -->
+  <div class="form-container max-w-md w-full">
+    <form class="bg-white px-8 py-10 flex flex-col gap-4 rounded-2xl shadow-lg" id="signin-form">
+      <div class="flex flex-col gap-3 items-center mb-2">
+        <h1 class="text-center text-4xl font-bold">Welcome Back!</h1>
+        <p class="text-center text-gray-600">Sign in to Todo-App today & start being productive.</p>
+      </div>
+      
+      <div class="flex flex-col gap-2">
+        <label for="email-signin" class="font-medium">Email</label>
+        <div class="relative">
+          <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input 
+            class="block border rounded-xl p-4 pl-10 w-full outline-0 focus:ring-2 focus:border-transparent" 
+            type="email" 
+            id="email-signin" 
+            placeholder="youremail@example.com" 
+            required
+          />
+        </div>
+      </div>
+      
+      <div class="flex flex-col gap-2">
+        <label for="password-signin" class="font-medium">Password</label>
+        <div class="relative">
+          <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input 
+            class="block border rounded-xl p-4 pl-10 pr-10 w-full password outline-0 focus:ring-2 focus:border-transparent" 
+            type="password" 
+            id="password-signin" 
+            placeholder="Enter your password" 
+            required
+          />
+          <button type="button" class="fas fa-eye-slash absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer toggle-password"></button>
+        </div>
+      </div>
+      
+      <button 
+        type="submit" 
+        class="bg-black text-white rounded-xl px-6 py-4 mt-2 font-medium hover:bg-stone-800 transition duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-opacity-50" 
+        id="signin-btn"
+      >
+        Sign In
+      </button>
+      
+      <p class="text-center text-gray-600 mt-2">
+        Don't have an account? 
+        <button type="button" class="text-black font-semibold hover:underline focus:outline-none" id="show-signup">Sign Up</button>
+      </p>
+      
+      <div id="signin-result" class="text-center mt-2"></div>
+    </form>
+
+    <!-- Signup Form -->
+    <form class="hidden bg-white px-8 py-10 flex-col gap-4 rounded-2xl shadow-lg" id="signup-form" autocomplete="off">
+      <div class="flex flex-col gap-3 items-center mb-2">
+        <h1 class="text-center text-4xl font-bold">Create Account</h1>
+        <p class="text-center text-gray-600">Join Todo-App today & boost your productivity.</p>
+      </div>
+      
+      <div class="flex flex-col gap-2">
+        <label for="fullname" class="font-medium">Full Name</label>
+        <div class="relative">
+          <i class="fas fa-user absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input 
+            class="block border rounded-lg p-4 pl-10 w-full outline-0 focus:ring-2 focus:border-transparent" 
+            type="text" 
+            id="fullname" 
+            placeholder="Enter your full name" 
+            required
+          />
+        </div>
+      </div>
+      
+      <div class="flex flex-col gap-2">
+        <label for="email-signup" class="font-medium">Email</label>
+        <div class="relative">
+          <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input 
+            class="block border rounded-lg p-4 pl-10 w-full outline-0 focus:ring-2 focus:border-transparent" 
+            type="email" 
+            id="email-signup" 
+            placeholder="youremail@example.com" 
+            required
+          />
+        </div>
+      </div>
+      
+      <div class="flex flex-col gap-2">
+        <label for="password-signup" class="font-medium">Password</label>
+        <div class="relative">
+          <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+          <input 
+            class="block border rounded-lg p-4 pl-10 pr-10 w-full password outline-0 focus:ring-2 focus:border-transparent" 
+            type="password" 
+            id="password-signup" 
+            placeholder="Create a password (min. 6 characters)" 
+            minlength="6"
+            required
+          />
+          <button type="button" class="fas fa-eye-slash absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer toggle-password"></button>
+        </div>
+      </div>
+      
+      <button 
+        type="submit" 
+        class="bg-black text-white rounded-lg px-6 py-4 mt-2 font-medium hover:bg-stone-800 transition duration-300 outline-0 focus:ring-2 focus:ring-opacity-50" 
+        id="signup-btn"
+      >
+        Create Account
+      </button>
+      
+      <p class="text-center text-gray-600 mt-2">
+        Already have an account? 
+        <button type="button" class="text-black font-semibold hover:underline focus:outline-none" id="show-signin">Sign In</button>
+      </p>
+      
+      <div id="signup-result" class="text-center mt-2"></div>
+    </form>
+  </div>
+  <script src="./auth.js"></script>
 </body>
 </html>

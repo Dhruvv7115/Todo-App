@@ -8,4 +8,10 @@
 - add bcrypt for password hashing. ✅
 - complete the routes for user login, signup, create a todo and deleting a todo.(use express routing to better structure your routes).✅
 - add middleware for user auth.✅
-- create a simple login frontend.
+- create a basic login frontend for signin/signup.✅
+- make signin/signup work using axios.✅
+- make todo-list html page.✅
+- better ui for signin/login.✅
+- make the todo page private (only logged in users can access).✅
+- make the user redirect to todo page when he logs in or registers.✅
+- let users add, delete, update, and get their todos from backend.

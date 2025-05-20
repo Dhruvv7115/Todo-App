@@ -57,9 +57,18 @@ router.post("/signup", async(req, res) => {
     if(!newUser){
       throw new ApiError(500, "There was a problem while creating the user.")
     }
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(newUser._id);
+
+    const options = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production"
+    }
+
 
     return res
       .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
       .json(new ApiResponse(
         200, 
         newUser,
@@ -113,8 +122,8 @@ router.post("/signin", async(req, res) => {
       ))
 
   } catch (error) {
-    console.log("login failed", error)
-    throw new ApiError(500, "There was a problem while login.")
+    console.log(error)
+    return res.status(400).json(new ApiError(400, `${error}`))
   }
 })
 
