@@ -5,12 +5,14 @@ document.addEventListener('DOMContentLoaded', async function(){
   
   // Get userId from localStorage (should be set during login)
   const userId = localStorage.getItem("userId");
+
+  //Get todos from localStorage 
   
   // Check if user is logged in
   if (!userId) {
     alert("Please log in to use the todo app");
     // Redirect to login page if needed
-    // window.location.href = '/login.html';
+    window.location.href = '/public/index.html';
     return;
   }
 
@@ -83,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   function renderTodo(todo) {
     const listItem = document.createElement('li');
     listItem.setAttribute('data-id', todo._id);
+    listItem.className = `bg-white hover:bg-gray-100 dark:hover:bg-zinc-900 dark:bg-black text-black dark:text-white p-4 mb-4 rounded-xl hover:cursor-pointer flex justify-between shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300`;
     
     // Apply completed class if todo is completed
     if (todo.isCompleted) {
@@ -90,8 +93,8 @@ document.addEventListener('DOMContentLoaded', async function(){
     }
     
     listItem.innerHTML = `
-      <span>${todo.content}</span>
-      <button>Delete</button>
+      <span class="self-center">${todo.content}</span>
+      <button class="bg-red-600 py-2 px-4 rounded-lg cursor-pointer hover:bg-red-800 transition duration-300 text-white">Delete</button>
     `;
     
     // Add click event to toggle completion status

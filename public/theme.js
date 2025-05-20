@@ -14,11 +14,13 @@ const iconToggle = () => {
 
 //initial theme-check
 const themeCheck = () => {
+  console.log(userTheme === "dark" || !userTheme && systemTheme)
   if(userTheme === "dark"|| (!userTheme && systemTheme)){
     document.documentElement.classList.add("dark");
     moonIcon.classList.add("hidden");
     return;
   }
+  // document.documentElement.classList.remove("dark");
   sunIcon.classList.add("hidden")
 }
 
