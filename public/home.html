@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,17 +43,23 @@
         background-color: #761b1b;
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
-  <body class="flex min-h-screen justify-center items-center bg-neutral-900">
-    <div class="bg-neutral-800 text-center px-[40px] py-[40px] rounded-2xl">
-      <h1 class="font-bold text-4xl text-white">Basic Todo App</h1>
+  <body class="flex min-h-screen justify-center items-center dark:bg-black bg-white">
+    <div class="bg-black dark:bg-white text-center px-[40px] py-[40px] rounded-2xl">
+      <h1 class="font-bold text-4xl text-white dark:text-black">Basic Todo-App</h1>
       <h2 id=""></h2>
       <div class="mt-[20px] grid grid-cols-4 gap-4">
-        <input class="bg-neutral-700 rounded-lg col-span-3 p-4 text-gray-200 outline-none" type="text" id="todo-input" placeholder="Add a new todo..." />
-        <button class="bg-purple-700 rounded-lg text-white p-2" id="add-task-btn">Add Task</button>
+        <input class="rounded-lg dark:text-black text-white col-span-3 p-4 dark:border-black border-white border-1 dark:border-1 dark:focus:ring-black focus:ring-white focus:ring-2 outline-0" type="text" id="todo-input" placeholder="Add a new todo..." />
+        <button class="bg-white dark:bg-black rounded-lg dark:text-white text-black p-2" id="add-task-btn">Add Todo</button>
       </div>
       <ul id="todo-list"></ul>
     </div>
-    <script src="todo-list.js"></script>
+    <div class="absolute top-4 left-4">
+      <img class="theme-icon" id="moon" src="./icons/moon.icon.png" width="25px"/>
+      <img class="theme-icon" id="sun" src="./icons/sun.icon.png" width="25px"/>
+    </div>
+    <script src="./todo-list.js"></script>
+    <script src="./theme.js"></script>
   </body>
 </html>
