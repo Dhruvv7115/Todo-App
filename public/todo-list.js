@@ -10,14 +10,23 @@ document.addEventListener('DOMContentLoaded', async function(){
   const logoutBtn = document.querySelector("#logout-btn")
   
   // Get userId from localStorage (should be set during login)
-  const cookies = document.cookie.split("; ");
-  const userId = cookies[0].replace("userId=", "");
-  const fullname = cookies[1].replace("fullname=", "");
-  console.log(userId)
-  console.log(fullname)
+  const userId = getCookie("userId");
+  const fullname = getCookie("fullname");
   greeting.innerHTML += fullname;
   accountName.innerHTML += fullname;
 
+  //Get cookies
+  function getCookie(name){
+    const cookies = document.cookie.split("; ")
+    let cookieVal
+    cookies.forEach((cookie) => {
+      // console.log(cookie.includes(name))
+      if(cookie.includes(name)){
+        cookieVal = cookie.replace(`${name}=`, "");
+      }
+    })
+    return cookieVal;
+  }
 
   //Get todos from localStorage 
   
@@ -30,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   }
 
   // Get authentication token
-  const token = cookies[2].replace("accessToken=", "");
+  const token = getCookie("accessToken");
   
   // Configure axios defaults for API calls
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -123,7 +132,14 @@ document.addEventListener('DOMContentLoaded', async function(){
       // Check if todos exist and render them
       if (response.data.data && response.data.data.todos) {
         const todos = response.data.data.todos;
-        todosLeft.innerHTML = `You have ${response.data.data.todosCount} todos today`
+        const todosCount = response.data.data.todosCount;
+        let todoMsg;
+        if(todosCount === 0){
+          todoMsg = "You have No Todos."
+        }else{
+          todoMsg = `You have ${todosCount} ${todosCount === 1 ? "todo" : "todos"} today`;
+        }
+        todosLeft.innerHTML = todoMsg;
         todos.forEach(todo => renderTodo(todo));
       }
     } catch (error) {

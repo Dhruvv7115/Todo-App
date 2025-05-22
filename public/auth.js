@@ -100,10 +100,9 @@ async function handleSignin() {
     if (response.status === 200) {
       // Store user data
       const userData = response.data.data;
-      document.cookie = `userId=${userData.user._id};accessToken=${userData.accessToken};fullname=${userData.user.fullname};`
-      // localStorage.setItem('userId', userData.user._id);
-      // localStorage.setItem('accessToken', userData.accessToken);
-      // localStorage.setItem('username', userData.user.fullname);
+      document.cookie = `userId=${userData.user._id}`
+      document.cookie = `accessToken=${userData.accessToken}`
+      document.cookie = `fullname=${userData.user.fullname}`
       
       // Show success message
       showMessage(signinResult, 'Login successful! Redirecting...', 'success');
@@ -166,7 +165,9 @@ async function handleSignup() {
     if (response.status === 200) {
       // Store user data
       const userData = response.data.data;
-      document.cookie = `userId=${userData.user._id};accessToken=${userData.accessToken};fullname=${userData.user.fullname};`
+      document.cookie = `userId=${userData._id}`
+      document.cookie = `accessToken=${userData.accessToken}`
+      document.cookie = `fullname=${userData.fullname}`
       // localStorage.setItem('userId', userData._id);
       // localStorage.setItem('accessToken', userData.accessToken);
       // localStorage.setItem('username', userData.fullname);
