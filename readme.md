@@ -1,4 +1,7 @@
 # Todo App
+A basic fullstack todo app, has features like user signin/signup, and todo CRUD operations like displaying todos, adding new todos, deleting todos, and updating todo's completed status. 
+
+## steps-
 - initialise a nodejs project.✅
 - add express and jsonwebtoken as a dependency.✅
 - add route skeleton for user login, signup, create a todo, delete a todo.✅
@@ -14,4 +17,10 @@
 - better ui for signin/login.✅
 - make the todo page private (only logged in users can access).✅
 - make the user redirect to todo page when he logs in or registers.✅
-- let users add, delete, update, and get their todos from backend.
+- let users add, delete, update, and get their todos from backend. ✅
+
+## Extra Features Added:
+- theme preference based and manual.✅
+- greetings to the user in the heading of the page.✅
+- number of todos remaining display.✅
+- logout functionality.✅

@@ -2,9 +2,22 @@ document.addEventListener('DOMContentLoaded', async function(){
   const todoList = document.getElementById('todo-list');
   const addBtn = document.getElementById('add-task-btn');
   const inputBox = document.getElementById('todo-input');
+  const greeting = document.querySelector('#greeting');
+  const todosLeft = document.querySelector('#todos-left');
+  const userIconDiv = document.querySelector("#user-icon-div")
+  const dropdown = document.querySelector("#dropdown")
+  const accountName = document.querySelector("#fullname-account")
+  const logoutBtn = document.querySelector("#logout-btn")
   
   // Get userId from localStorage (should be set during login)
-  const userId = localStorage.getItem("userId");
+  const cookies = document.cookie.split("; ");
+  const userId = cookies[0].replace("userId=", "");
+  const fullname = cookies[1].replace("fullname=", "");
+  console.log(userId)
+  console.log(fullname)
+  greeting.innerHTML += fullname;
+  accountName.innerHTML += fullname;
+
 
   //Get todos from localStorage 
   
@@ -12,18 +25,23 @@ document.addEventListener('DOMContentLoaded', async function(){
   if (!userId) {
     alert("Please log in to use the todo app");
     // Redirect to login page if needed
-    window.location.href = '/public/index.html';
+    window.location.href = '/public/signin.html';
     return;
   }
 
   // Get authentication token
-  const token = localStorage.getItem("accessToken");
+  const token = cookies[2].replace("accessToken=", "");
   
   // Configure axios defaults for API calls
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
   // Initial fetch of todos
   await fetchTodos();
+
+  // Event listener for logging out
+  logoutBtn.addEventListener('click', async() => {
+    await handleLogout();
+  })
 
   // Event listener for adding new todo
   addBtn.addEventListener('click', addNewTodo);
@@ -34,6 +52,37 @@ document.addEventListener('DOMContentLoaded', async function(){
       addNewTodo();
     }
   });
+
+  // Allow to focus on input bar by "/"
+  window.addEventListener('keypress', function(e) {
+    if (e.key === '/') {
+      e.preventDefault()
+      inputBox.focus();
+    }
+  });
+
+  userIconDiv.addEventListener('click', (e) => {
+    dropdown.classList.toggle("hidden");
+    dropdown.classList.toggle("flex")
+  })
+
+  // Function to log out a user.
+  async function handleLogout(){
+    try {
+      const response = await axios.post(`http://localhost:4000/api/v1/users/logout`, {
+        withCredentials: true
+      });
+
+      if (response.data.statusCode === 200) {
+        localStorage.removeItem("accessToken")
+        localStorage.removeItem("userId")
+        window.location.href = '/public/signin.html'
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+      alert("Failed to logout please try again.");
+    }
+  }
 
   // Function to add a new todo
   async function addNewTodo() {
@@ -53,6 +102,7 @@ document.addEventListener('DOMContentLoaded', async function(){
         
         // Render the new todo
         renderTodo(response.data.data);
+        fetchTodos()
       }
     } catch (error) {
       console.error("Error adding todo:", error);
@@ -73,11 +123,14 @@ document.addEventListener('DOMContentLoaded', async function(){
       // Check if todos exist and render them
       if (response.data.data && response.data.data.todos) {
         const todos = response.data.data.todos;
+        todosLeft.innerHTML = `You have ${response.data.data.todosCount} todos today`
         todos.forEach(todo => renderTodo(todo));
       }
     } catch (error) {
       console.error("Error fetching todos:", error);
-      alert("Failed to load todos. Please check your connection and try again.");
+      if(todosLeft.innerHTML === ''){
+        todosLeft.innerHTML = "You have 0 todos";
+      }
     }
   }
 
@@ -127,6 +180,7 @@ document.addEventListener('DOMContentLoaded', async function(){
         
         if (response.data.statusCode === 200) {
           listItem.remove();
+          fetchTodos();
         }
       } catch (error) {
         console.error("Error deleting todo:", error);

@@ -100,9 +100,10 @@ async function handleSignin() {
     if (response.status === 200) {
       // Store user data
       const userData = response.data.data;
-      localStorage.setItem('userId', userData.user._id);
-      localStorage.setItem('accessToken', userData.accessToken);
-      localStorage.setItem('username', userData.user.fullname);
+      document.cookie = `userId=${userData.user._id};accessToken=${userData.accessToken};fullname=${userData.user.fullname};`
+      // localStorage.setItem('userId', userData.user._id);
+      // localStorage.setItem('accessToken', userData.accessToken);
+      // localStorage.setItem('username', userData.user.fullname);
       
       // Show success message
       showMessage(signinResult, 'Login successful! Redirecting...', 'success');
@@ -165,9 +166,10 @@ async function handleSignup() {
     if (response.status === 200) {
       // Store user data
       const userData = response.data.data;
-      localStorage.setItem('userId', userData._id);
-      localStorage.setItem('accessToken', userData.accessToken);
-      localStorage.setItem('username', userData.fullname);
+      document.cookie = `userId=${userData.user._id};accessToken=${userData.accessToken};fullname=${userData.user.fullname};`
+      // localStorage.setItem('userId', userData._id);
+      // localStorage.setItem('accessToken', userData.accessToken);
+      // localStorage.setItem('username', userData.fullname);
       
       // Show success message
       showMessage(signupResult, 'Account created successfully! Redirecting...', 'success');
