@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   if (!userId) {
     alert("Please log in to use the todo app");
     // Redirect to login page if needed
-    window.location.href = '/public/signin.html';
+    window.location.href = '/public/index.html';
     return;
   }
 
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', async function(){
       if (response.data.statusCode === 200) {
         localStorage.removeItem("accessToken")
         localStorage.removeItem("userId")
-        window.location.href = '/public/signin.html'
+        window.location.href = '/public/index.html'
       }
     } catch (error) {
       console.error("Error logging out:", error);
