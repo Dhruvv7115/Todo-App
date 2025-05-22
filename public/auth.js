@@ -70,7 +70,7 @@ function checkAuthStatus() {
   
   if (token && userId) {
     // User is already logged in, redirect to the todo app
-    window.location.href = '/public/home.html';
+    window.location.href = '/home.html';
   }
 }
 
@@ -109,7 +109,7 @@ async function handleSignin() {
       
       // Redirect to home page
       setTimeout(() => {
-        window.location.href = '/public/home.html';
+        window.location.href = '/home.html';
       }, 1000);
     }
   } catch (error) {
@@ -177,7 +177,7 @@ async function handleSignup() {
       
       // Redirect to home page
       setTimeout(() => {
-        window.location.href = '/public/home.html';
+        window.location.href = '/home.html';
       }, 1500);
     }
   } catch (error) {
