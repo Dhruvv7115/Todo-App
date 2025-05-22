@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   // Function to log out a user.
   async function handleLogout(){
     try {
-      const response = await axios.post(`https://todo-app-pp6k.onrender.com/api/v1/users/logout`, {
+      const response = await axios.post(`https://todo-app-d2nq.onrender.com/api/v1/users/logout`, {
         withCredentials: true
       });
 
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async function(){
     if (inputText === '') return;
     
     try {
-      const response = await axios.post('https://todo-app-pp6k.onrender.com/api/v1/todos/add', {
+      const response = await axios.post('https://todo-app-d2nq.onrender.com/api/v1/todos/add', {
         content: inputText
       }, {
         withCredentials: true
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   // Function to fetch all todos
   async function fetchTodos() {
     try {
-      const response = await axios.get(`https://todo-app-pp6k.onrender.com/api/v1/todos/display/${userId}`, {
+      const response = await axios.get(`https://todo-app-d2nq.onrender.com/api/v1/todos/display/${userId}`, {
         withCredentials: true
       });
       
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', async function(){
       if (e.target.tagName === 'BUTTON') return;
       
       try {
-        const response = await axios.patch(`https://todo-app-pp6k.onrender.com/api/v1/todos/update-status/${todo._id}`, {}, {
+        const response = await axios.patch(`https://todo-app-d2nq.onrender.com/api/v1/todos/update-status/${todo._id}`, {}, {
           withCredentials: true
         });
         
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async function(){
       e.stopPropagation();
       
       try {
-        const response = await axios.delete(`https://todo-app-pp6k.onrender.com/api/v1/todos/delete/${todo._id}`, {
+        const response = await axios.delete(`https://todo-app-d2nq.onrender.com/api/v1/todos/delete/${todo._id}`, {
           withCredentials: true
         });
         
